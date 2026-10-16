@@ -1,0 +1,751 @@
+{
+  "name": "Workflow A – Dokumenten-Erinnerungen",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -176,
+        128
+      ],
+      "id": "cafe24cf-358b-4a39-abe3-f78fdf516cb5",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Broker_Email }}",
+        "subject": "=Reminder Fehlende Dokumente für Ihren Kunden {{ $json.Kunde }}",
+        "message": "=Hallo {{ $json.Broker }},\n\nWir schreiben Ihnen, weil für Ihren Kunden {{ $json.Kunde }} folgende Dokumente fehlen: \n\n-{{ $json.fehlende_dokumente.join('\\n-') }}\n\nOhne diese Dokumente können wir leider nicht mit dem Kredit fortfahren, bitte reichen Sie die Dokumente schnellstmöglich nach. \n\n\nMit freundlichen Grüßen \n\nFirma MortgageBroker ABC",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1168,
+        32
+      ],
+      "id": "7ebcf1d0-7953-4a4c-bf0c-f9a62d9e4437",
+      "name": "Reminder Message",
+      "webhookId": "62e88e59-4eba-45a4-9c43-2c544c407bf6",
+      "alwaysOutputData": false,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Zz20ij5eOBO4MBKT",
+          "name": "Gmail account 2"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        720,
+        224
+      ],
+      "id": "6d676ebd-387b-40eb-a062-17a8c7a26102",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SPREADSHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Dein Spreadsheet",
+          "cachedResultUrl": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "workflow-a-testdaten",
+          "cachedResultUrl": ""
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Erinnerung_gesendet": "={{ $now.toISODate() }}",
+            "Fall_ID": "={{ $('Bereits eine Erinnerung gesendet?').item.json.Fall_ID }}",
+            "Sende Status": "Gesendet"
+          },
+          "matchingColumns": [
+            "Fall_ID"
+          ],
+          "schema": [
+            {
+              "id": "Fall_ID",
+              "displayName": "Fall_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Broker",
+              "displayName": "Broker",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Broker_Email",
+              "displayName": "Broker_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Kunde",
+              "displayName": "Kunde",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Auftrag",
+              "displayName": "Auftrag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ausweis",
+              "displayName": "Ausweis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Gehaltsnachweis",
+              "displayName": "Gehaltsnachweis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Kontoauszug",
+              "displayName": "Kontoauszug",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Steuerbescheid",
+              "displayName": "Steuerbescheid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Eigenkapitalnachweis",
+              "displayName": "Eigenkapitalnachweis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Frist",
+              "displayName": "Frist",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Erinnerung_gesendet",
+              "displayName": "Erinnerung_gesendet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sende Status",
+              "displayName": "Sende Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1680,
+        -224
+      ],
+      "id": "8f7db0d6-c564-4542-a4ea-68811d0dd99a",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "mZ1tgGRNGs1SQxYY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SPREADSHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Dein Spreadsheet",
+          "cachedResultUrl": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "workflow-a-testdaten",
+          "cachedResultUrl": ""
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fall_ID": "={{ $('Bereits eine Erinnerung gesendet?').item.json.Fall_ID }}",
+            "Sende Status": "Fehlgeschlagen"
+          },
+          "matchingColumns": [
+            "Fall_ID"
+          ],
+          "schema": [
+            {
+              "id": "Fall_ID",
+              "displayName": "Fall_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Broker",
+              "displayName": "Broker",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Broker_Email",
+              "displayName": "Broker_Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Kunde",
+              "displayName": "Kunde",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Auftrag",
+              "displayName": "Auftrag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ausweis",
+              "displayName": "Ausweis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Gehaltsnachweis",
+              "displayName": "Gehaltsnachweis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Kontoauszug",
+              "displayName": "Kontoauszug",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Steuerbescheid",
+              "displayName": "Steuerbescheid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Eigenkapitalnachweis",
+              "displayName": "Eigenkapitalnachweis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Frist",
+              "displayName": "Frist",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Erinnerung_gesendet",
+              "displayName": "Erinnerung_gesendet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Sende Status",
+              "displayName": "Sende Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1680,
+        80
+      ],
+      "id": "0c521239-af31-4d08-b5d5-eb7441953ecc",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "mZ1tgGRNGs1SQxYY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SPREADSHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Dein Spreadsheet",
+          "cachedResultUrl": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "workflow-a-testdaten",
+          "cachedResultUrl": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        48,
+        128
+      ],
+      "id": "ab263747-7c25-409c-baa5-6cf46c7d6258",
+      "name": "Zeilen aus Sheet ziehen",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "mZ1tgGRNGs1SQxYY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const dokumente = ['Ausweis', 'Gehaltsnachweis', 'Kontoauszug', 'Steuerbescheid', 'Eigenkapitalnachweis'];\nconst fehlende = [];\n\nfor (const name of dokumente) {\n  if ($json[name] !== 'erhalten') {\n    fehlende.push(name);\n  }\n}\n\n$input.item.json.fehlende_dokumente = fehlende;\n$input.item.json.anzahl_fehlend = fehlende.length;\n\nreturn $input.item"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        272,
+        128
+      ],
+      "id": "c3cf3b6a-a6da-4a14-9620-711aac60b78d",
+      "name": "Fehlende Dokumente ermitteln"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "94cd0986-4bd7-419c-aa46-c409546d4954",
+              "leftValue": "={{ $json.Erinnerung_gesendet }}",
+              "rightValue": "fehlt",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        32
+      ],
+      "id": "9b6e6655-9695-40d2-b9bf-1f402cb2941d",
+      "name": "Bereits eine Erinnerung gesendet?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "195b93fb-c7e9-4ed1-b485-8b063a52b4d0",
+              "leftValue": "={{ $json.labelIds }}",
+              "rightValue": "SENT",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1392,
+        32
+      ],
+      "id": "5a531a5b-f035-45a6-aaab-3698a2ae2bf6",
+      "name": "Reminder wurde erfolgreich gesendet"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6bc42c56-754e-4201-a99f-2435c0342a0f",
+              "leftValue": "={{ $json.Erinnerung_gesendet }}",
+              "rightValue": "={{ $now.minus(13, 'days')}}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        944,
+        112
+      ],
+      "id": "9540299f-2927-4dff-929a-3d17f59e40b2",
+      "name": "Reminder 2 Wochen her ?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e575159d-53b8-4038-8f3c-5da86fd0369b",
+              "leftValue": "={{ $json.anzahl_fehlend }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        496,
+        128
+      ],
+      "id": "140ec1ec-8efb-447c-a5ef-abc96ccf9e0f",
+      "name": "Fehlen Dokumente"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Zeilen aus Sheet ziehen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reminder Message": {
+      "main": [
+        [
+          {
+            "node": "Reminder wurde erfolgreich gesendet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zeilen aus Sheet ziehen": {
+      "main": [
+        [
+          {
+            "node": "Fehlende Dokumente ermitteln",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fehlende Dokumente ermitteln": {
+      "main": [
+        [
+          {
+            "node": "Fehlen Dokumente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bereits eine Erinnerung gesendet?": {
+      "main": [
+        [
+          {
+            "node": "Reminder Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reminder 2 Wochen her ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reminder wurde erfolgreich gesendet": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reminder 2 Wochen her ?": {
+      "main": [
+        [
+          {
+            "node": "Reminder Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fehlen Dokumente": {
+      "main": [
+        [
+          {
+            "node": "Bereits eine Erinnerung gesendet?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c949a52e-adef-47ba-81f8-d8b9125abe38",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": ""
+  },
+  "nodeGroups": [],
+  "id": "pS7ghIqUzPBAFoKQ",
+  "tags": []
+}
