@@ -1,0 +1,10 @@
+Fall_ID,Broker,Broker_Email,Kunde,Auftrag,Ausweis,Gehaltsnachweis,Kontoauszug,Steuerbescheid,Eigenkapitalnachweis,Frist,Erinnerung_gesendet,Sende Status
+F-1001,Sandra Keller,broker1@example.com,Familie Brandt,Erstfinanzierung Eigenheim,erhalten,erhalten,erhalten,erhalten,erhalten,2026-11-05,,
+F-1002,Sandra Keller,broker1@example.com,Jonas Weber,Anschlussfinanzierung,erhalten,fehlt,erhalten,fehlt,erhalten,2026-10-28,,
+F-1003,Tobias Mehring,broker2@example.com,Lisa Hartmann,Modernisierungskredit,fehlt,erhalten,erhalten,erhalten,erhalten,2026-10-24,,
+F-1004,Tobias Mehring,broker2@example.com,Erguen Yildiz,Erstfinanzierung Eigenheim,erhalten,fehlt,fehlt,erhalten,fehlt,2026-11-12,,
+F-1005,Tobias Mehring,broker2@example.com,Petra Lang,Kapitalanlage-Finanzierung,erhalten,erhalten,erhalten,erhalten,erhalten,2026-11-02,,
+F-1006,Aylin Oezdemir,broker3@example.com,Markus Reiter,Umschuldung,fehlt,fehlt,fehlt,fehlt,fehlt,2026-10-22,,
+F-1007,Aylin Oezdemir,broker3@example.com,Sofia Lindqvist,Erstfinanzierung Eigenheim,erhalten,erhalten,erhalten,erhalten,fehlt,2026-11-18,,
+F-1008,Marc Dubois,broker4@example.com,Heiko Brenner,Anschlussfinanzierung,erhalten,fehlt,erhalten,fehlt,erhalten,2026-10-30,2026-10-13,Gesendet
+F-1009,Sandra Keller,broker1@example.com,Nadia Farouk,Modernisierungskredit,erhalten,fehlt,fehlt,erhalten,erhalten,2026-11-20,2026-09-21,Gesendet
